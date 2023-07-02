@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>Video Player</title>
+</head>
+<body>
+  <div id="app">
+    <video :src="videoUrl"  controls autoplay>
+    </video>
+    <ul>
+      <li v-for="file in files" :key="file.magnet">
+        {{ file.fileName }}
+        <button @click="play(file)">play</button>
+      </li>
+    </ul> 
+  </div>
+</body>
+
+<script>
+  const { createApp, ref } = Vue
+  createApp({
+    data() {
+        return {
+          activeVideo: {},
+          files: [
+            {
+              magnet: '40238eae934cccb5d7e64b4f98574af0997711cf',
+              fileName: 'She-Hulk.Attorney.at.Law.S01E02.mkv'
+            }
+          ]
+        }
+      },
+      computed: {
+        videoUrl: ({ activeVideo }) =>
+          activeVideo.fileName ? `/stream/${activeVideo.magnet}/${activeVideo.fileName}` : ''
+      },
+      methods: {
+        async play(file) {
+          const response = await axios.get(`/stream/add/${file.magnet}`)
+          this.activeVideo = file
+        },
+      }
+  }).mount('#app')
+</script>
+</html>
