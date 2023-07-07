@@ -6,7 +6,7 @@ import { parse } from 'qs'
 
 const router = Router()
 
-const BASE_SEARCH_URL = 'http://rutor.info/search/1/0/000/0'
+const BASE_SEARCH_URL = 'http://rutor.info/search/0/0/000/0'
 const MAGNET_KEY = 'magnet:?xt'
 const SPLIT_MAGNET_LINK = 'urn:btih:'
 
@@ -31,7 +31,7 @@ router.get('/search', async ({ query: { searchTerm } }: SearchRequest, res) => {
             }
         })
 
-        res.status(200).send(results)
+        res.status(200).send(results) 
     } catch (err) {
         res.send(400).send(err)
     }
